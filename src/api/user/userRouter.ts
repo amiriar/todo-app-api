@@ -1,6 +1,7 @@
 import { createApiResponse } from "@/api-docs/openAPIResponseBuilders";
 import { GetUserSchema, UserSchema } from "@/api/user/userModel";
 import { AuthGuard } from "@/common/guard/AuthGuard";
+import { rolesGuard } from "@/common/guard/RoleGuard";
 import { validateRequest } from "@/common/utils/httpHandlers";
 import { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import express, { type Router } from "express";
@@ -17,26 +18,26 @@ userRegistry.register("User", UserSchema);
 userRegistry.registerPath({
   method: "get",
   path: "/users",
-  tags: ["User"],
+  tags: ["User - Admin Panel"],
   responses: createApiResponse(z.array(UserSchema), "Successfully retrieved users"),
 });
-userRouter.get("/", AuthGuard, userController.getUsers);
+userRouter.get("/", AuthGuard, rolesGuard("ADMIN"), userController.getUsers);
 
 // Get user by ID
 userRegistry.registerPath({
   method: "get",
   path: "/users/{id}",
-  tags: ["User"],
+  tags: ["User - Admin Panel"],
   request: { params: GetUserSchema.shape.params },
   responses: createApiResponse(UserSchema, "Successfully retrieved user"),
 });
-userRouter.get("/:id", validateRequest(GetUserSchema), AuthGuard, userController.getUser);
+userRouter.get("/:id", validateRequest(GetUserSchema), AuthGuard, rolesGuard("ADMIN"), userController.getUser);
 
 // Create user
 // userRegistry.registerPath({
 //   method: "post",
 //   path: "/users",
-//   tags: ["User"],
+//   tags: ["User - Admin Panel"],
 //   request: {
 //     body: {
 //       content: {
@@ -54,7 +55,7 @@ userRouter.get("/:id", validateRequest(GetUserSchema), AuthGuard, userController
 userRegistry.registerPath({
   method: "put",
   path: "/users/{id}",
-  tags: ["User"],
+  tags: ["User - Admin Panel"],
   request: {
     params: GetUserSchema.shape.params,
     body: {
@@ -67,14 +68,14 @@ userRegistry.registerPath({
   },
   responses: createApiResponse(UserSchema, "Successfully updated user"),
 });
-userRouter.put("/:id", AuthGuard, userController.updateUser);
+userRouter.put("/:id", AuthGuard, rolesGuard("ADMIN"), userController.updateUser);
 
 // Delete user
 userRegistry.registerPath({
   method: "delete",
   path: "/users/{id}",
-  tags: ["User"],
+  tags: ["User - Admin Panel"],
   request: { params: GetUserSchema.shape.params },
   responses: createApiResponse(z.object({ success: z.boolean() }), "Successfully deleted user"),
 });
-userRouter.delete("/:id", AuthGuard, userController.deleteUser);
+userRouter.delete("/:id", AuthGuard, rolesGuard("ADMIN"), userController.deleteUser);
