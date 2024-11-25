@@ -5,7 +5,7 @@ import express, { type Router } from "express";
 import { z } from "zod";
 import { authController } from "./authController";
 import { AuthLoginSchema, AuthRegisterSchema, RefreshTokenBodySchema } from "./authModel";
-import { AuthSchema, LoginSchema, RefreshTokenSchema } from "./authSchema";
+import { AuthSchema, LoginSchema, LogoutSchema, RefreshTokenSchema } from "./authSchema";
 
 export const authRegistry = new OpenAPIRegistry();
 export const authRouter: Router = express.Router();
@@ -90,15 +90,6 @@ authRegistry.registerPath({
   method: "post",
   path: "/auth/logout",
   tags: ["Auth"],
-  request: {
-    body: {
-      content: {
-        "application/json": {
-          schema: AuthSchema,
-        },
-      },
-    },
-  },
-  responses: createApiResponse(AuthSchema, "Successfully logged out"),
+  responses: createApiResponse(LogoutSchema, "Successfully logged out"),
 });
-authRouter.post("/logout", validateRequest(AuthSchema), authController.logout);
+authRouter.post("/logout", validateRequest(LogoutSchema), authController.logout);
