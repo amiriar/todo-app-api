@@ -93,7 +93,7 @@ export class AuthService {
     try {
       // Sign the JWT token with a secret (you can replace this with a private key if using RS256)
       const token = jwt.sign(
-        { userId: user._id }, // You can customize the payload
+        { _id: user._id }, // You can customize the payload
         env.JWT_SECRET || "your_secret_key", // Make sure to set this in your environment variables
         { expiresIn: "1h" }, // Set the token expiration time as needed
       );
@@ -183,7 +183,7 @@ export class AuthService {
     // Implement your logic to generate a refresh token
     // This could be similar to generateToken but with different payload or expiration
     const refreshToken = jwt.sign(
-      { userId: user._id }, // Customize the payload as needed
+      { _id: user._id }, // Customize the payload as needed
       env.JWT_REFRESH_SECRET || "your_refresh_secret_key", // Use a different secret for refresh tokens
       { expiresIn: "7d" }, // Set a longer expiration time for refresh tokens
     );
@@ -193,11 +193,9 @@ export class AuthService {
 
   async validateToken(token: string): Promise<any | boolean> {
     try {
-      const decodedToken = jwt.verify(token, env.JWT_SECRET);
+      const decodedToken = jwt.verify(token, env.JWT_REFRESH_SECRET);
       return decodedToken;
     } catch (error: any) {
-      console.log(error);
-
       console.error(`Token validation failed: ${error.message}`);
       return false;
     }
