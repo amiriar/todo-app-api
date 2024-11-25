@@ -4,7 +4,8 @@ import type { Request, RequestHandler, Response } from "express";
 
 class TodoController {
   public getTodos: RequestHandler = async (_req: Request, res: Response) => {
-    const serviceResponse = await todoService.findAll();
+    const user = _req.user;
+    const serviceResponse = await todoService.findAll(user?._id as string);
     return handleServiceResponse(serviceResponse, res);
   };
 
@@ -16,6 +17,7 @@ class TodoController {
 
   public createTodo: RequestHandler = async (req: Request, res: Response) => {
     const todoData = req.body;
+    todoData.author = req.user?._id;
     const serviceResponse = await todoService.create(todoData);
     return handleServiceResponse(serviceResponse, res);
   };

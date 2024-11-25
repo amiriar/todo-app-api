@@ -1,5 +1,6 @@
 import { createApiResponse } from "@/api-docs/openAPIResponseBuilders";
 import { GetTodoSchema, TodoSchema } from "@/api/todo/todoModel";
+import { AuthGuard } from "@/common/guard/AuthGuard";
 import { validateRequest } from "@/common/utils/httpHandlers";
 import { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import express, { type Router } from "express";
@@ -19,7 +20,7 @@ todoRegistry.registerPath({
   tags: ["Todo"],
   responses: createApiResponse(z.array(TodoSchema), "Successfully retrieved todos"),
 });
-todoRouter.get("/", todoController.getTodos);
+todoRouter.get("/", AuthGuard, todoController.getTodos);
 
 // Get todo by ID
 todoRegistry.registerPath({
@@ -29,7 +30,7 @@ todoRegistry.registerPath({
   request: { params: GetTodoSchema.shape.params },
   responses: createApiResponse(TodoSchema, "Successfully retrieved todo"),
 });
-todoRouter.get("/:id", validateRequest(GetTodoSchema), todoController.getTodo);
+todoRouter.get("/:id", AuthGuard, validateRequest(GetTodoSchema), todoController.getTodo);
 
 // Create todo
 todoRegistry.registerPath({
@@ -47,7 +48,7 @@ todoRegistry.registerPath({
   },
   responses: createApiResponse(TodoSchema, "Successfully created todo"),
 });
-todoRouter.post("/", todoController.createTodo);
+todoRouter.post("/", AuthGuard, todoController.createTodo);
 
 // Update todo
 todoRegistry.registerPath({
@@ -66,7 +67,7 @@ todoRegistry.registerPath({
   },
   responses: createApiResponse(TodoSchema, "Successfully updated todo"),
 });
-todoRouter.put("/:id", todoController.updateTodo);
+todoRouter.put("/:id", AuthGuard, todoController.updateTodo);
 
 // Delete todo
 todoRegistry.registerPath({
@@ -76,4 +77,4 @@ todoRegistry.registerPath({
   request: { params: GetTodoSchema.shape.params },
   responses: createApiResponse(z.object({ success: z.boolean() }), "Successfully deleted todo"),
 });
-todoRouter.delete("/:id", todoController.deleteTodo);
+todoRouter.delete("/:id", AuthGuard, todoController.deleteTodo);

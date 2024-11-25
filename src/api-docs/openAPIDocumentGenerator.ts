@@ -7,6 +7,14 @@ import { userRegistry } from "@/api/user/userRouter";
 
 export function generateOpenAPIDocument() {
   const registry = new OpenAPIRegistry([healthCheckRegistry, userRegistry, todoRegistry, authRegistry]);
+
+  // Define the BearerAuth scheme in the registry
+  registry.registerComponent("securitySchemes", "BearerAuth", {
+    type: "http",
+    scheme: "bearer",
+    bearerFormat: "JWT",
+  });
+
   const generator = new OpenApiGeneratorV3(registry.definitions);
 
   return generator.generateDocument({
@@ -20,5 +28,6 @@ export function generateOpenAPIDocument() {
       description: "View the raw OpenAPI Specification in JSON format",
       url: "/swagger.json",
     },
+    security: [{ BearerAuth: [] }], // Apply BearerAuth globally
   });
 }

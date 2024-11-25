@@ -1,11 +1,12 @@
 import { createApiResponse } from "@/api-docs/openAPIResponseBuilders";
+import { AuthGuard } from "@/common/guard/AuthGuard";
 import { validateRequest } from "@/common/utils/httpHandlers";
 import { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import express, { type Router } from "express";
 import { z } from "zod";
 import { authController } from "./authController";
 import { AuthLoginSchema, AuthRegisterSchema, RefreshTokenBodySchema } from "./authModel";
-import { AuthSchema, LoginSchema, LogoutSchema, RefreshTokenSchema } from "./authSchema";
+import { AuthSchema, LoginSchema, RefreshTokenSchema } from "./authSchema";
 
 export const authRegistry = new OpenAPIRegistry();
 export const authRouter: Router = express.Router();
@@ -90,6 +91,13 @@ authRegistry.registerPath({
   method: "post",
   path: "/auth/logout",
   tags: ["Auth"],
-  responses: createApiResponse(LogoutSchema, "Successfully logged out"),
+  responses: {
+    200: {
+      description: "Successfully logged out",
+    },
+    500: {
+      description: "Internal server error",
+    },
+  },
 });
-authRouter.post("/logout", validateRequest(LogoutSchema), authController.logout);
+authRouter.post("/logout", AuthGuard, authController.logout);

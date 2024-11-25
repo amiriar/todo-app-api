@@ -45,9 +45,8 @@ class AuthController {
   };
 
   public logout: RequestHandler = async (req: Request, res: Response) => {
-    // @ts-ignore
-    const { _id } = req.user;
-    const serviceResponse = await authService.logout(_id);
+    const user = req.user;
+    const serviceResponse = await authService.logout(user?._id as string);
     return handleServiceResponse(serviceResponse, res);
   };
 }

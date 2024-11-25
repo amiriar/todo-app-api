@@ -1,4 +1,4 @@
-import mongoose, { Schema, type Document } from "mongoose";
+import mongoose, { Schema, Types, type Document } from "mongoose";
 import { z } from "zod";
 
 export interface ITodo extends Document {
@@ -7,6 +7,8 @@ export interface ITodo extends Document {
   createdAt: Date;
   updatedAt: Date;
   dueDate: string;
+  author: string;
+  date: string;
   priority: "low" | "medium" | "high";
   tags: string[];
   order: number;
@@ -15,8 +17,10 @@ export interface ITodo extends Document {
 const TodoSchema: Schema = new Schema(
   {
     content: { type: String, required: true },
-    completed: { type: Boolean, required: true },
+    completed: { type: Boolean, default: false },
+    date: { type: String, required: true },
     dueDate: { type: String, required: true },
+    author: { type: Types.ObjectId, required: true },
     priority: { type: String, enum: ["low", "medium", "high"], required: true },
     tags: { type: [String], required: true },
     order: { type: Number, required: true },

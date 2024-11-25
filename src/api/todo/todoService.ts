@@ -3,6 +3,7 @@ import type { ITodo } from "@/api/todo/todoSchema";
 import { ServiceResponse } from "@/common/models/serviceResponse";
 import { logger } from "@/server";
 import { StatusCodes } from "http-status-codes";
+import moment from "jalali-moment"; // Add this import for Persian date handling
 
 export class TodoService {
   private todoRepository: TodoRepository;
@@ -12,9 +13,9 @@ export class TodoService {
   }
 
   // Retrieves all todos from the database
-  async findAll(): Promise<ServiceResponse<ITodo[] | null>> {
+  async findAll(id: string): Promise<ServiceResponse<ITodo[] | null>> {
     try {
-      const todos = await this.todoRepository.findAllAsync();
+      const todos = await this.todoRepository.findAllAsync(id);
       if (!todos || todos.length === 0) {
         return ServiceResponse.failure("No Todos found", null, StatusCodes.NOT_FOUND);
       }
@@ -48,7 +49,16 @@ export class TodoService {
   // Creates a new todo
   async create(todoData: Partial<ITodo>): Promise<ServiceResponse<ITodo | null>> {
     try {
-      const todo = await this.todoRepository.createAsync(todoData);
+      // Add the Persian date to the todo data
+      const date = moment().locale("fa").format("YYYY/MM/DD HH:mm:ss");
+      const todoWithDate = {
+        ...todoData,
+        date,
+      };
+
+      console.log(todoWithDate);
+
+      const todo = await this.todoRepository.createAsync(todoWithDate);
       return ServiceResponse.success<ITodo>("Todo created successfully", todo);
     } catch (ex) {
       const errorMessage = `Error creating todo: ${(ex as Error).message}`;

@@ -1,5 +1,6 @@
 import { createApiResponse } from "@/api-docs/openAPIResponseBuilders";
 import { GetUserSchema, UserSchema } from "@/api/user/userModel";
+import { AuthGuard } from "@/common/guard/AuthGuard";
 import { validateRequest } from "@/common/utils/httpHandlers";
 import { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import express, { type Router } from "express";
@@ -19,7 +20,7 @@ userRegistry.registerPath({
   tags: ["User"],
   responses: createApiResponse(z.array(UserSchema), "Successfully retrieved users"),
 });
-userRouter.get("/", userController.getUsers);
+userRouter.get("/", AuthGuard, userController.getUsers);
 
 // Get user by ID
 userRegistry.registerPath({
@@ -29,7 +30,7 @@ userRegistry.registerPath({
   request: { params: GetUserSchema.shape.params },
   responses: createApiResponse(UserSchema, "Successfully retrieved user"),
 });
-userRouter.get("/:id", validateRequest(GetUserSchema), userController.getUser);
+userRouter.get("/:id", validateRequest(GetUserSchema), AuthGuard, userController.getUser);
 
 // Create user
 // userRegistry.registerPath({
@@ -66,7 +67,7 @@ userRegistry.registerPath({
   },
   responses: createApiResponse(UserSchema, "Successfully updated user"),
 });
-userRouter.put("/:id", userController.updateUser);
+userRouter.put("/:id", AuthGuard, userController.updateUser);
 
 // Delete user
 userRegistry.registerPath({
@@ -76,4 +77,4 @@ userRegistry.registerPath({
   request: { params: GetUserSchema.shape.params },
   responses: createApiResponse(z.object({ success: z.boolean() }), "Successfully deleted user"),
 });
-userRouter.delete("/:id", userController.deleteUser);
+userRouter.delete("/:id", AuthGuard, userController.deleteUser);

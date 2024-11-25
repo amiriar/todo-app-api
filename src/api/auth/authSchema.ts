@@ -23,7 +23,3 @@ export const LoginSchema = z.object({
 export const RefreshTokenSchema = z.object({
   token: z.string(),
 });
-
-export const LogoutSchema = z.object({
-  message: z.string(),
-});

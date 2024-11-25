@@ -1,8 +1,8 @@
 import { type ITodo, TodoModel } from "./todoSchema";
 
 export class TodoRepository {
-  async findAllAsync(): Promise<ITodo[]> {
-    return await TodoModel.find();
+  async findAllAsync(id: string): Promise<ITodo[]> {
+    return await TodoModel.find({ author: id });
   }
 
   async findByIdAsync(id: string): Promise<ITodo | null> {
