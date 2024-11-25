@@ -11,4 +11,6 @@ export const env = cleanEnv(process.env, {
   COMMON_RATE_LIMIT_MAX_REQUESTS: num({ devDefault: testOnly(1000) }),
   COMMON_RATE_LIMIT_WINDOW_MS: num({ devDefault: testOnly(1000) }),
   MONGODB_URI: str({ devDefault: "mongodb://localhost:27017/todo" }),
+  JWT_SECRET: str({ devDefault: "my-secret-key" }),
+  JWT_REFRESH_SECRET: str({ devDefault: "my-secret-key" }),
 });

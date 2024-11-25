@@ -8,15 +8,17 @@ export interface IUser extends Document {
   age: number;
   createdAt: Date;
   updatedAt: Date;
+  refreshToken: string | null;
 }
 
 const UserSchema: Schema = new Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String, required: false },
     email: { type: String, required: true, unique: true },
     age: { type: Number, required: false },
     username: { type: String, required: true },
     password: { type: String, required: true },
+    refreshToken: { type: String, required: false },
   },
   {
     timestamps: true,

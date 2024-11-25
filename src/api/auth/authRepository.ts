@@ -1,12 +1,20 @@
-import { type IUser, UserModel } from "./userSchema";
+import { type IUser, UserModel } from "../user/userSchema";
 
-export class UserRepository {
+export class AuthRepository {
   async findAllAsync(): Promise<IUser[]> {
     return await UserModel.find();
   }
 
   async findByIdAsync(id: string): Promise<IUser | null> {
     return await UserModel.findById(id);
+  }
+
+  async findByUsernameAsync(username: string): Promise<IUser | null> {
+    return await UserModel.findOne({ username });
+  }
+
+  async findByEmailAsync(email: string): Promise<IUser | null> {
+    return await UserModel.findOne({ email });
   }
 
   async createAsync(userData: Partial<IUser>): Promise<IUser> {
