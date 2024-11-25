@@ -49,8 +49,8 @@ export class AuthService {
       user.refreshToken = refreshTokenResponse.responseObject;
       user.save();
 
-      // @ts-ignore
       return ServiceResponse.success<IUser>("User authenticated", {
+        // @ts-ignore
         accessToken: accessTokenResponse.responseObject,
         refreshToken: refreshTokenResponse.responseObject,
       });
