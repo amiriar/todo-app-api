@@ -1,8 +1,9 @@
 import { StatusCodes } from "http-status-codes";
 import request from "supertest";
 
-import type { User } from "@/api/user/userModel";
-import { users } from "@/api/user/userRepository";
+import type { User } from "@/api/admin/user/userModel";
+// @ts-ignore
+import { users } from "@/api/admin/user/userRepository";
 import type { ServiceResponse } from "@/common/models/serviceResponse";
 import { app } from "@/server";
 
@@ -26,7 +27,7 @@ describe("User API Endpoints", () => {
     it("should return a user for a valid ID", async () => {
       // Arrange
       const testId = 1;
-      const expectedUser = users.find((user) => user.id === testId) as User;
+      const expectedUser = users.find((user: any) => user.id === testId) as User;
 
       // Act
       const response = await request(app).get(`/users/${testId}`);

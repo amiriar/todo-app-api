@@ -1,4 +1,4 @@
-import type { IUser } from "@/api/user/userSchema";
+import type { IUser } from "@/api/admin/user/userSchema";
 import { Request } from "express";
 
 declare global {

@@ -1,4 +1,4 @@
-import { userService } from "@/api/user/userService";
+import { userService } from "@/api/admin/user/userService";
 import { handleServiceResponse } from "@/common/utils/httpHandlers";
 import type { Request, RequestHandler, Response } from "express";
 

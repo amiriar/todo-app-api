@@ -1,4 +1,4 @@
-import { type IUser, UserModel } from "../user/userSchema";
+import { type IUser, UserModel } from "../admin/user/userSchema";
 
 export class AuthRepository {
   async findAllAsync(): Promise<IUser[]> {

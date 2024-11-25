@@ -1,5 +1,5 @@
-import { UserRepository } from "@/api/user/userRepository";
-import type { IUser } from "@/api/user/userSchema";
+import { UserRepository } from "@/api/admin/user/userRepository";
+import type { IUser } from "@/api/admin/user/userSchema";
 import { ServiceResponse } from "@/common/models/serviceResponse";
 import { env } from "@/common/utils/envConfig";
 import { logger } from "@/server";

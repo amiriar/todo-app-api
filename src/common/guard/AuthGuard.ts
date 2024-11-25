@@ -1,4 +1,4 @@
-import { UserModel } from "@/api/user/userSchema";
+import { UserModel } from "@/api/admin/user/userSchema";
 import { ServiceResponse } from "@/common/models/serviceResponse";
 import { logger } from "@/server";
 import type { NextFunction, Request, Response } from "express";

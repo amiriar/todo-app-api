@@ -1,9 +1,9 @@
 import { StatusCodes } from "http-status-codes";
 import request from "supertest";
 
-import type { User } from "@/api/user/userModel";
+import type { User } from "@/api/admin/user/userModel";
 // @ts-ignore
-import { users } from "@/api/user/userRepository";
+import { users } from "@/api/admin/user/userRepository";
 import type { ServiceResponse } from "@/common/models/serviceResponse";
 import { app } from "@/server";
 

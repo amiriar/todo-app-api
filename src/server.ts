@@ -4,12 +4,13 @@ import helmet from "helmet";
 import { pino } from "pino";
 
 import { openAPIRouter } from "@/api-docs/openAPIRouter";
+import { userRouter } from "@/api/admin/user/userRouter";
 import { healthCheckRouter } from "@/api/healthCheck/healthCheckRouter";
-import { userRouter } from "@/api/user/userRouter";
 import errorHandler from "@/common/middleware/errorHandler";
 import rateLimiter from "@/common/middleware/rateLimiter";
 import requestLogger from "@/common/middleware/requestLogger";
 import { env } from "@/common/utils/envConfig";
+import { adminTodoRouter } from "./api/admin/todo/todoRouter";
 import { authRouter } from "./api/auth/authRouter";
 import { todoRouter } from "./api/todo/todoRouter";
 
@@ -33,6 +34,7 @@ app.use(requestLogger);
 app.use("/health-check", healthCheckRouter);
 app.use("/users", userRouter);
 app.use("/todos", todoRouter);
+app.use("/admin/todos", adminTodoRouter);
 app.use("/auth", authRouter);
 
 // Swagger UI

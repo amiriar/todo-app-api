@@ -1,5 +1,5 @@
-import { UserRepository } from "@/api/user/userRepository";
-import type { IUser } from "@/api/user/userSchema";
+import { UserRepository } from "@/api/admin/user/userRepository";
+import type { IUser } from "@/api/admin/user/userSchema";
 import { ServiceResponse } from "@/common/models/serviceResponse";
 import { logger } from "@/server";
 import { StatusCodes } from "http-status-codes";

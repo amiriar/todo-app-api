@@ -1,5 +1,5 @@
 import { createApiResponse } from "@/api-docs/openAPIResponseBuilders";
-import { GetUserSchema, UserSchema } from "@/api/user/userModel";
+import { GetUserSchema, UserSchema } from "@/api/admin/user/userModel";
 import { AuthGuard } from "@/common/guard/AuthGuard";
 import { rolesGuard } from "@/common/guard/RoleGuard";
 import { validateRequest } from "@/common/utils/httpHandlers";

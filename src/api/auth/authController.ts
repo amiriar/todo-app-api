@@ -1,7 +1,7 @@
 import { authService } from "@/api/auth/authService";
 import { handleServiceResponse } from "@/common/utils/httpHandlers";
 import type { Request, RequestHandler, Response } from "express";
-import { userService } from "../user/userService";
+import { userService } from "../admin/user/userService";
 
 class AuthController {
   public login: RequestHandler = async (req: Request, res: Response) => {
