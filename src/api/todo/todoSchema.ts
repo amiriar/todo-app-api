@@ -20,7 +20,7 @@ const TodoSchema: Schema = new Schema(
     completed: { type: Boolean, default: false },
     date: { type: String, required: true },
     dueDate: { type: String, required: true },
-    author: { type: Types.ObjectId, required: true },
+    author: { type: Types.ObjectId, required: true, ref: "User" },
     priority: { type: String, enum: ["low", "medium", "high"], required: true },
     tags: { type: [String], required: true },
     order: { type: Number, required: true },
