@@ -3,11 +3,11 @@ import { TodoModel } from "@/api/todo/todoSchema";
 
 export class TodoRepository {
   async findAllAsync(): Promise<ITodo[]> {
-    return await TodoModel.find();
+    return await TodoModel.find().populate("author", "name username email");
   }
 
   async findByIdAsync(id: string): Promise<ITodo | null> {
-    return await TodoModel.findById(id);
+    return await TodoModel.findById(id).populate("author", "name username email");
   }
 
   async createAsync(todoData: Partial<ITodo>): Promise<ITodo> {
@@ -16,10 +16,10 @@ export class TodoRepository {
   }
 
   async updateAsync(id: string, todoData: Partial<ITodo>): Promise<ITodo | null> {
-    return await TodoModel.findByIdAndUpdate(id, todoData, { new: true });
+    return await TodoModel.findByIdAndUpdate(id, todoData, { new: true }).populate("author", "name username email");
   }
 
   async deleteAsync(id: string): Promise<ITodo | null> {
-    return await TodoModel.findByIdAndDelete(id);
+    return await TodoModel.findByIdAndDelete(id).populate("author", "name username email");
   }
 }
